@@ -9,7 +9,7 @@ may require different environment set-up.
 
 ## Runbook
 
-### Python projects
+### Basic Python projects
 
 Please follow these steps to set-up and activate a local virtual environment:
 
@@ -33,6 +33,12 @@ Please follow these steps to set-up and activate a local virtual environment:
 
 To run Python file simply do (replace file reference to suit your case):
 
-    ```shell
-    python3 chapter_01/gdp_to_life_satisfaction/main.py
-    ```
+```shell
+python3 chapter_01/gdp_to_life_satisfaction/main.py
+```
+
+### Docker setup
+
+To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/issues/142). simply avigate to `docker` folder and just run: `docker compose up`.
+
+This setup is based on [Dockerfile.gpu](docker/Dockerfile.gpu).
