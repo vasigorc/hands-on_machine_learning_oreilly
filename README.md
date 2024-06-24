@@ -39,6 +39,32 @@ python3 chapter_01/gdp_to_life_satisfaction/main.py
 
 ### Docker setup
 
-To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/issues/142). simply avigate to `docker` folder and just run: `docker compose up`.
+To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/issues/142). Simply navigate to `docker` folder and just run: `docker compose up`.
 
 This setup is based on [Dockerfile.gpu](docker/Dockerfile.gpu).
+
+#### Build image
+
+This should be ideally done only once:
+
+```shell
+cd docker/
+# build docker compose image from Dockerfile.gpu
+# Note that this may take a while (12 minutes on my machine)
+docker compose build
+```
+
+#### Run
+
+```shell
+# click on one of the produced links to start adding/editing Jupyter Notebook entries
+docker compose up
+...
+handson-ml3  |     To access the server, open this file in a browser:
+handson-ml3  |         file:///home/devel/.local/share/jupyter/runtime/jpserver-1-open.html
+handson-ml3  |     Or copy and paste one of these URLs:
+handson-ml3  |         http://62903a64ecf6:8888/lab?token=87cbe0058148e33d6702d94d243525acb18f7577ff00ca5d
+handson-ml3  |         http://127.0.0.1:8888/lab?token=87cbe0058148e33d6702d94d243525acb18f7577ff00ca5d
+handson-ml3  | [I 2024-06-24 23:49:32.937 ServerApp] Skipped non-installed server(s): bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server
+```
+
