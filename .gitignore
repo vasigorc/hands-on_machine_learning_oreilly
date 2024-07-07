@@ -3,3 +3,22 @@ venv/
 
 # IDE settings
 .vscode
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Compressed files
+*.tgz
+
+# Other temporary or unnecessary files
+__pycache__/
+*.py[cod]
+*.so
+*.dylib
+*.pyd
+*.swp
+*.bak
+.DS_Store
+
+# Model files (weigh normally a lot: Mb to Gb)
+*.pkl

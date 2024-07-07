@@ -39,7 +39,7 @@ python3 chapter_01/gdp_to_life_satisfaction/main.py
 
 ### Docker setup
 
-To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/issues/142). Simply navigate to `docker` folder and just run: `docker compose up`.
+To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/pull/144). Simply navigate to `docker` folder and just run: `docker compose up`.
 
 This setup is based on [Dockerfile.gpu](docker/Dockerfile.gpu).
 
