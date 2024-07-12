@@ -13,16 +13,16 @@ may require different environment set-up.
 
 Please follow these steps to set-up and activate a local virtual environment:
 
-1. `cd` inside the project of your choice
-2. Set-up a virtual environment
+1. Make sure you're at the root of the project
+2. Set-up the virtual environment
 
     ```shell
-    python3 -m venv venv
+    python -m venv ./shared_venv
     ```
 3. Activate your virtual environment (example below is for macOS/Linux)
 
     ```shell
-    source venv/bin/activate
+    source ./shared_venv/bin/activate
     ```
 
 4. Install required dependencies:

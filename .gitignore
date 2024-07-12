@@ -1,5 +1,6 @@
 # Virtual environment
 venv/
+shared_venv/
 
 # IDE settings
 .vscode
