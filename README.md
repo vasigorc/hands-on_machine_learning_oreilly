@@ -31,15 +31,23 @@ Please follow these steps to set-up and activate a local virtual environment:
     pip install -r requirements.txt
     ```
 
-To run Python file simply do (replace file reference to suit your case):
+5. [optional, for Visual Studio Code] If you want to run/edit the project from Visual Studio Code:
+   1. Make sure you have _Python extension for Visual Studio Code_ installed
+   2. Open command pallete (`Ctr + Shift + P` on Linux) and select _Python: Select Interpreter_
+   3. Pick the option containing `shared_venv`
+
+To run Python file, cd into chapter directory in question and run a `main` module like this:
 
 ```shell
-python3 chapter_01/gdp_to_life_satisfaction/main.py
+# for example
+cd chapter_02/
+python3 -m ex01.main
 ```
+
 
 ### Docker setup
 
-To run book examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/pull/144). Simply navigate to `docker` folder and just run: `docker compose up`.
+For Jupyter Notebook examples I've used [initial containerized environment](https://github.com/ageron/handson-ml3/tree/main/docker) with a [small fix](https://github.com/ageron/handson-ml3/pull/144). Simply navigate to `docker` folder and just run: `docker compose up`.
 
 This setup is based on [Dockerfile.gpu](docker/Dockerfile.gpu).
 

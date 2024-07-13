@@ -2,6 +2,10 @@
 venv/
 shared_venv/
 
+# Data directories and files
+datasets
+datasets/
+
 # IDE settings
 .vscode
 
