@@ -90,3 +90,5 @@ pydot~=1.4.2
 # Optional: statsmodels is only used in chapter 15 for time series analysis
 statsmodels~=0.14.0
 
+# Used in python modules outside of Jupyter
+pytest~=7.4.0
