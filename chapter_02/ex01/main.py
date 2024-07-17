@@ -3,7 +3,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.svm import SVR
 import pandas as pd
 
-from common import get_train_test_data, get_preprocessor
+from common import get_train_test_data
+from svr import rnd_search
 
 """
 Exercise 01: Try  a support vector machine regressor (`sklearn.svm.SVR`) with various hyperparameters, such as 
@@ -50,29 +51,7 @@ overfitting
 # TODO Read-up about norm weights
 
 housing, housing_labels, strat_test_set = get_train_test_data()
-preprocessing = get_preprocessor()
 
-param_grid = [
-    {
-        "svr__kernel": ["linear"],
-        "svr__C": [10.0, 50.0, 100.0, 500.0, 1000.0, 5000.0, 10000.0, 50000.0],
-    },
-    {
-        "svr__kernel": ["rbf"],
-        "svr__C": [1.0, 5.0, 10.0, 50.0, 100.0, 500.0, 1000.0, 5000.0],
-        "svr__gamma": [0.01, 0.05, 0.1, 0.5, 1.0, 5.0],
-    },
-]
-
-svr_pipeline = make_pipeline(preprocessing, SVR())
-rnd_search = RandomizedSearchCV(
-    svr_pipeline,
-    param_distributions=param_grid,
-    n_iter=10,
-    cv=3,
-    scoring="neg_root_mean_squared_error",
-    random_state=42,
-)
 rnd_search.fit(housing.iloc[:5000], housing_labels.iloc[:5000])
 
 # Add print statements to see the results
