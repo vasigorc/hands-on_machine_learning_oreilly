@@ -47,9 +47,6 @@ and thus a smoother decision boundary, while a large `gamma` value leads to a Ga
 overfitting
 """
 
-# TODO Read-up about Gaussian function and its' parameters, and its variance (Math)
-# TODO Read-up about norm weights
-
 housing, housing_labels, strat_test_set = get_train_test_data()
 
 rnd_search.fit(housing.iloc[:5000], housing_labels.iloc[:5000])

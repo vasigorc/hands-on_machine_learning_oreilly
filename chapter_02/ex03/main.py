@@ -4,10 +4,15 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVR
-from scipy.stats import loguniform, expon
 
 from common import get_train_test_data, get_preprocessor
-from svr import rnd_search, svr_kernel_h, svr_c_h, svr_gamma_h
+from svr import (
+    rnd_search,
+    svr_kernel_h,
+    svr_c_h,
+    svr_gamma_h,
+    randomized_hyperparameter_distributions,
+)
 
 """
 Exercise 03: Try adding a `SelectFromModel` transformer in the preparation pipeline to select only the most 
@@ -17,21 +22,7 @@ important attributes
 housing, housing_labels, strat_test_set = get_train_test_data()
 preprocessing = get_preprocessor()
 
-# from Exercise 2
-"""
-Note that we used `expon()` distribution for `gamma`, with a scale of 1, so `RandomSearch` mostly
-searched for values roughly of that scale.
-
-We used `loguniform()` distribution for `C`, meaning we did not have a clue what the optimal scale
-of `C` was before running the random search.
-"""
-new_param_distribs = {
-    "svr__kernel": ["linear", "rbf"],
-    "svr__C": loguniform(20, 200_000),
-    "svr__gamma": expon(scale=1.0),
-}
-
-rnd_search.param_distributions = new_param_distribs
+rnd_search.param_distributions = randomized_hyperparameter_distributions
 
 # train the model
 rnd_search.fit(housing.iloc[:5000], housing_labels.iloc[:5000])
