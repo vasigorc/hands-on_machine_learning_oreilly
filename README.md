@@ -44,6 +44,14 @@ cd chapter_02/
 python3 -m ex01.main
 ```
 
+To run tests for a certain chapter:
+
+```shell
+# change chapter folder accordingly
+cd chapter_02/
+python -m pytest
+```
+
 
 ### Docker setup
 
