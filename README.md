@@ -84,3 +84,22 @@ handson-ml3  |         http://127.0.0.1:8888/lab?token=87cbe0058148e33d6702d94d2
 handson-ml3  | [I 2024-06-24 23:49:32.937 ServerApp] Skipped non-installed server(s): bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server
 ```
 
+⚠️ Should the above docker container be automatically restarted by the Docker engine on your laptop, just look for the last logs for the running container, e.g.:
+
+```shell
+docker logs --tail 15 handson-ml3
+    To access the server, open this file in a browser:
+        file:///home/devel/.local/share/jupyter/runtime/jpserver-1-open.html
+    Or copy and paste one of these URLs:
+        http://62903a64ecf6:8888/lab?token=b99d270fee1d46985f3f58abb29dabf913672ff971da673c
+        http://127.0.0.1:8888/lab?token=b99d270fee1d46985f3f58abb29dabf913672ff971da673c
+[I 2024-08-19 20:10:40.091 ServerApp] Skipped non-installed server(s): bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server
+[I 2024-08-20 22:19:51.983 ServerApp] 302 GET / (@172.18.0.1) 0.41ms
+[I 2024-08-20 22:19:51.985 LabApp] 302 GET /lab? (@172.18.0.1) 0.46ms
+[I 2024-08-20 22:20:23.947 LabApp] 302 GET /lab?token=[secret] (@172.18.0.1) 0.52ms
+[W 2024-08-20 22:22:28.435 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2024-08-20 22:22:29.358 ServerApp] Kernel started: b6936699-0de1-4051-a6a1-337ea2696f9c
+[I 2024-08-20 22:22:30.748 ServerApp] Connecting to kernel b6936699-0de1-4051-a6a1-337ea2696f9c.
+[I 2024-08-20 22:22:30.762 ServerApp] Connecting to kernel b6936699-0de1-4051-a6a1-337ea2696f9c.
+[I 2024-08-20 22:22:30.776 ServerApp] Connecting to kernel b6936699-0de1-4051-a6a1-337ea2696f9c.
+```
