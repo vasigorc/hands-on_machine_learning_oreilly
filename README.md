@@ -1,4 +1,5 @@
 # hands-on_machine_learning_oreilly
+
 Exercises and examples from O'Reilly's "Hands-on Machine Learning with Scikit-Learn, Keras &amp; TernsorFlow" by A. Geron (3rd ed.)
 
 ## Description
@@ -9,39 +10,38 @@ may require different environment set-up.
 
 ## Runbook
 
-### Basic Python projects
+### For Python modules
 
 Please follow these steps to set-up and activate a local virtual environment:
 
 1. Make sure you're at the root of the project
 2. Set-up the virtual environment
 
-    ```shell
-    python -m venv ./shared_venv
-    ```
+   ```shell
+   python -m venv ./shared_venv
+   ```
+
 3. Activate your virtual environment (example below is for macOS/Linux)
 
-    ```shell
-    source ./shared_venv/bin/activate
-    ```
+   ```shell
+   source ./shared_venv/bin/activate
+   ```
 
 4. Install required dependencies:
 
-    ```shell
-    pip install -r requirements.txt
-    ```
+   ```shell
+   pip install -r requirements.txt
+   ```
 
 5. [optional, for Visual Studio Code] If you want to run/edit the project from Visual Studio Code:
    1. Make sure you have _Python extension for Visual Studio Code_ installed
    2. Open command pallete (`Ctr + Shift + P` on Linux) and select _Python: Select Interpreter_
    3. Pick the option containing `shared_venv`
 
-To run Python file, cd into chapter directory in question and run a `main` module like this:
+To run a Python file, run a `main` module like this:
 
 ```shell
-# for example
-cd chapter_02/
-python3 -m ex01.main
+python3 -m chapter_03.ex03.main
 ```
 
 To run tests for a certain chapter:
@@ -51,7 +51,6 @@ To run tests for a certain chapter:
 cd chapter_02/
 python -m pytest
 ```
-
 
 ### Docker setup
 

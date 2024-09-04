@@ -6,6 +6,9 @@ shared_venv/
 datasets
 datasets/
 
+# Images for purposefully ignored Notebooks
+images_/
+
 # IDE settings
 .vscode
 
