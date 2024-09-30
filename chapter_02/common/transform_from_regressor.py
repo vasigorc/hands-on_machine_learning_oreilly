@@ -1,32 +1,28 @@
-import numpy as np
-from scipy import sparse
 from sklearn.base import (
+    BaseEstimator,
     MetaEstimatorMixin,
     TransformerMixin,
-    BaseEstimator,
     check_is_fitted,
     clone,
 )
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.utils.estimator_checks import parametrize_with_checks, check_estimator
 
 """
 From the solution exercise:
-Rather than restrict ourselves to k-Nearest Neighbors regressors, let's create a transformer 
-that accepts any regressor. For this, we can extend the MetaEstimatorMixin and have a required 
-estimator argument in the constructor. 
+Rather than restrict ourselves to k-Nearest Neighbors regressors, let's create a transformer
+that accepts any regressor. For this, we can extend the MetaEstimatorMixin and have a required
+estimator argument in the constructor.
 """
 
 
 class TransformerFromRegressor(BaseEstimator, TransformerMixin, MetaEstimatorMixin):
-    def __init__(self, estimator):
+    def __init__(self, estimator: BaseEstimator):
         self.estimator = estimator
 
     """
-    The fit() method must work on a clone of this estimator, and it must also save 
-    feature_names_in_. The MetaEstimatorMixin will ensure that estimator is listed as a 
-    required parameters, and it will update get_params() and set_params() to make the 
-    estimator's hyperparameters available for tuning. 
+    The fit() method must work on a clone of this estimator, and it must also save
+    feature_names_in_. The MetaEstimatorMixin will ensure that estimator is listed as a
+    required parameters, and it will update get_params() and set_params() to make the
+    estimator's hyperparameters available for tuning.
     """
 
     def fit(self, X, y=None):
@@ -39,7 +35,7 @@ class TransformerFromRegressor(BaseEstimator, TransformerMixin, MetaEstimatorMix
         """
         self.estimator_ = estimator_
         """
-        n_features_in_ is an attribute commonly used in scikit-learn estimators to store the 
+        n_features_in_ is an attribute commonly used in scikit-learn estimators to store the
         number of features that the estimator was trained on
         """
         self.n_features_in_ = self.estimator_.n_features_in_

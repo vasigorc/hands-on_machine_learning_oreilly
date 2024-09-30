@@ -1,21 +1,20 @@
 import pandas as pd
+from common import get_preprocessor, get_train_test_data
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVR
-
-from common import get_train_test_data, get_preprocessor
 from svr import (
+    randomized_hyperparameter_distributions,
     rnd_search,
-    svr_kernel_h,
     svr_c_h,
     svr_gamma_h,
-    randomized_hyperparameter_distributions,
+    svr_kernel_h,
 )
 
 """
-Exercise 03: Try adding a `SelectFromModel` transformer in the preparation pipeline to select only the most 
+Exercise 03: Try adding a `SelectFromModel` transformer in the preparation pipeline to select only the most
 important attributes
 """
 

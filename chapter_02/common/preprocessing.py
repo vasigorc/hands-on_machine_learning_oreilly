@@ -4,7 +4,6 @@ from sklearn.cluster import KMeans
 from sklearn.compose import (
     ColumnTransformer,
     make_column_selector,
-    make_column_transformer,
 )
 from sklearn.impute import SimpleImputer
 from sklearn.metrics.pairwise import rbf_kernel
@@ -43,7 +42,7 @@ class ClusterSimilarity(BaseEstimator, TransformerMixin):
 
     def fit(self, X, y=None, sample_weight=None):
         self.kmeans_ = KMeans(
-            self.n_clusters, n_init=10, random_state=self.random_state
+            self.n_clusters, n_init=10, random_state=self.random_state  # type: ignore[arg-type]
         )
         self.kmeans_.fit(X, sample_weight=sample_weight)
         return self  # always return self!
@@ -92,5 +91,5 @@ def get_preprocessor():
             ("geo", cluster_simil, ["latitude", "longitude"]),
             ("cat", cat_pipeline, make_column_selector(dtype_include=object)),
         ],
-        remainder=default_num_pipeline,
+        remainder=default_num_pipeline, # type: ignore[arg-type]
     )
