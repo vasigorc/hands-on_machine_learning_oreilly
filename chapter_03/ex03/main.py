@@ -4,6 +4,7 @@ from sklearn.calibration import cross_val_predict
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import KNNImputer
+from sklearn.inspection import permutation_importance
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
 from sklearn.model_selection import RandomizedSearchCV
@@ -29,6 +30,35 @@ IS_ALONE = "IsAlone"
 FARE_LOG = "Fare_log"
 AGE_BAND = "AgeBand"
 DECK = "Deck"
+NAME = "Name"
+TITLE = "Title"
+
+
+def substrings_in_string(big_string, substrings):
+    title = next((s for s in substrings if s in big_string), None)
+    if title:
+        return title
+    print(f"No available title found for {big_string}")
+    return "Unknown"
+
+
+title_list = [
+    "Mrs",
+    "Mr",
+    "Master",
+    "Miss",
+    "Major",
+    "Rev",
+    "Dr",
+    "Ms",
+    "Mlle",
+    "Col",
+    "Capt",
+    "Mme",
+    "Countess",
+    "Don",
+    "Jonkheer",
+]
 
 
 def print_evaluation_metrics(y_true, y_pred, model_name="Model"):
@@ -154,14 +184,14 @@ def tune_svc(X_train, y_train):
     For now this prints:
     Final model Evaluation Results:
     Confusion Matrix:
-    [[492  57]
-    [ 99 243]]
+    [[491  58]
+    [ 91 251]]
     Precision:
-    0.8100
+    0.8123
     Recall:
-    0.7105
+    0.7339
     F1-score:
-    0.7570
+    0.7711
     """
 
     return random_search.best_estimator_
@@ -235,6 +265,24 @@ def age_band_name(function_transformer, feature_names_in):
     return [AGE_BAND]
 
 
+def add_titles(X):
+    titles = pd.Series(X.iloc[:, 0]).apply(
+        lambda name: substrings_in_string(name, title_list)
+    )
+    return pd.DataFrame({TITLE: titles})
+
+
+def add_titles_name(function_transformer, feature_names_in):
+    return [TITLE]
+
+
+def titles():
+    return make_pipeline(
+        FunctionTransformer(add_titles, feature_names_out=add_titles_name),
+        OneHotEncoder(sparse_output=False, handle_unknown="ignore"),
+    )
+
+
 def create_preprocessor():
     return ColumnTransformer(
         [
@@ -297,6 +345,7 @@ def create_preprocessor():
                 ),
                 [AGE],
             ),
+            ("titles", titles(), [NAME]),
         ]
     )
 
