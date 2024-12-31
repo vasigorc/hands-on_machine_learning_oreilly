@@ -20,11 +20,10 @@ def main():
     
     X_with_bias = add_bias_term(X)
     
-    X_train, y_train, X_test, y_test, X_validation, y_validation = split_data_with_id_hash(X_with_bias, y, 0.2, 0.2, random_state = 42)
+    X_train, y_train, X_test, y_test = split_data_with_id_hash(X_with_bias, y, 0.2, random_state = 42)
     
     print("Train size:", X_train.shape, y_train.shape)
     print("Test size:", X_test.shape, y_test.shape)
-    print("Validation size:", X_validation.shape, y_validation.shape)
     
     theta_optimal = batch_gradient_descent_for_softmax_with_early_stopping(X_train, len(unique_classes), y_train)
     
@@ -49,15 +48,14 @@ def add_bias_term(X):
     """
     return np.c_[np.ones(len(X)), X]
 
-def split_data_with_id_hash(data, targets, test_ratio, validation_ratio, random_state=None):
+def split_data_with_id_hash(data, targets, test_ratio, random_state=None):
     """
-    Splits the data into training, testing and validation steps using hash-based IDs.
+    Splits the data into training, testing steps using hash-based IDs.
     
     Args:
       data: Input dataset (NumPy array or Pandas DataFrame)
       targets: Target values corresponding to the input data 
       test_ratio: Proportion of the dataset to be used as the test set
-      validation_ratio: Proportion of the dataset to be used as the validation set
       randoom_state: Optional random seed for reproducibility
     """
     if random_state is not None:
@@ -74,18 +72,15 @@ def split_data_with_id_hash(data, targets, test_ratio, validation_ratio, random_
     hashed_ids = hashed_ids % 2**32 # Ensure range for consistency
     
     test_threshold = int(test_ratio *2**32)
-    validation_threshold = int(validation_ratio *2**32)
     
     in_test_set = hashed_ids < test_threshold
-    in_validation_set = hashed_ids < validation_threshold
-    in_training_set = ~in_test_set & ~in_validation_set
+    in_training_set = ~in_test_set
     
     # split data and targets accordingly
     X_train, y_train = data[in_training_set], targets[in_training_set]
     X_test, y_test = data[in_test_set], targets[in_test_set]
-    X_validation, y_validation = data[in_validation_set], targets[in_validation_set]
 
-    return X_train, y_train, X_test, y_test, X_validation, y_validation
+    return X_train, y_train, X_test, y_test
 
 def compute_logits(X, theta):
     """
