@@ -18,13 +18,13 @@ Please follow these steps to set-up and activate a local virtual environment:
 2. Set-up the virtual environment
 
    ```shell
-   python -m venv ./shared_venv
+   python -m venv shared_venv/
    ```
 
 3. Activate your virtual environment (example below is for macOS/Linux)
 
    ```shell
-   source ./shared_venv/bin/activate
+   source shared_venv/bin/activate
    ```
 
 4. Install required dependencies:
