@@ -27,6 +27,7 @@ def main():
     
     theta_optimal = batch_gradient_descent_for_softmax_with_early_stopping(X_train, len(unique_classes), y_train)
     
+    print(f"X_test shape: {X_test.shape}, theta_optimal shape: {theta_optimal.shape}")
     test_logits = compute_logits(X_test, theta_optimal) # Compute raw scores for the test set
     test_probabilities = softmax_probabilities(test_logits) # Transform raw scores to probabilities
     test_predictions = np.argmax(test_probabilities, axis=1) # Predict class labels based on highest probability
@@ -98,7 +99,13 @@ def compute_logits(X, theta):
     Returns:
       NumPy array of shape (n_samples, n_classes), the logits
     """
-    return X @ theta
+    try:
+      return X @ theta
+    except ValueError as e:
+      print(f"compute_logits: X shape {X.shape}, theta shape: {theta.shape} result shapte {result.shape}")
+      print(f"Error in compute_logits: {e}")
+      print(f"X: {X}, theta: {theta}")
+      raise
 
 def one_hot_encoded(y, num_classes):
   """
@@ -126,7 +133,8 @@ def softmax_probabilities(logits):
     Returns:
       NumPy array of the same shape, containing probabilities 
     """
-    exp_logits = np.exp(logits - np.max(logits, axis=1, keepdims=True)) # Avoid numerical instability when computing large exponentials
+    assert logits.ndim == 2, f"Expected 2D logits, got shape {logits.shape}"
+    exp_logits = np.exp(logits - np.max(logits, axis=1, keepdims=True))  # Avoid numerical instability
     return exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
 
 def batch_gradient_descent_for_softmax_with_early_stopping(X, num_classes, y, eta=0.1, n_epochs=1000, early_stop_tolerance=1e-5, patience=5):
@@ -189,7 +197,7 @@ def batch_gradient_descent_for_softmax_with_early_stopping(X, num_classes, y, et
       if epoch % 100 == 0:
         print(f"Epoch {epoch}: Loss = {loss:.4f}")
     
-    theta # return the trained weights
+    return theta # return the trained weights
 
 if __name__ == "__main__":
     main()
