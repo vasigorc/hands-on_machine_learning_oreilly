@@ -1,5 +1,7 @@
+import warnings
 from zlib import crc32
 
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.datasets import load_iris
 
@@ -25,7 +27,7 @@ def main():
     print("Train size:", X_train.shape, y_train.shape)
     print("Test size:", X_test.shape, y_test.shape)
     
-    theta_optimal = batch_gradient_descent_for_softmax_with_early_stopping(X_train, len(unique_classes), y_train)
+    theta_optimal, loss_history = batch_gradient_descent_for_softmax_with_early_stopping(X_train, len(unique_classes), y_train)
     
     print(f"X_test shape: {X_test.shape}, theta_optimal shape: {theta_optimal.shape}")
     test_logits = compute_logits(X_test, theta_optimal) # Compute raw scores for the test set
@@ -34,6 +36,17 @@ def main():
     
     accuracy = np.mean(test_predictions == y_test)
     print(f"Model accuracy on test set is: {accuracy:.2f}")
+    print_loss_history(loss_history)
+
+def print_loss_history(loss_history):
+    warnings.filterwarnings("ignore", category=UserWarning, message=".*FigureCanvasAgg is non-interactive.*") # silent matlplotlib warning running from CLI
+    plt.plot(loss_history)
+    plt.title("Loss Over Epochs")
+    plt.xlabel("Epochs")
+    plt.ylabel("Cross-Entropy Loss")
+    plt.show()
+    plt.savefig("chapter_04/ex12/loss_plot.png") # Save the plot to a file
+    print("Loss plot saved as `loss_plot.png`")
   
 def add_bias_term(X):  
     """
@@ -102,7 +115,6 @@ def compute_logits(X, theta):
     try:
       return X @ theta
     except ValueError as e:
-      print(f"compute_logits: X shape {X.shape}, theta shape: {theta.shape} result shapte {result.shape}")
       print(f"Error in compute_logits: {e}")
       print(f"X: {X}, theta: {theta}")
       raise
@@ -197,7 +209,7 @@ def batch_gradient_descent_for_softmax_with_early_stopping(X, num_classes, y, et
       if epoch % 100 == 0:
         print(f"Epoch {epoch}: Loss = {loss:.4f}")
     
-    return theta # return the trained weights
+    return theta, loss_history # return the trained weights
 
 if __name__ == "__main__":
     main()
