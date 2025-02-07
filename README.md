@@ -8,6 +8,8 @@ This repository is an accompanying journal on my path of going through examples 
 It follows book's chapter division, partially for ease of navigation, but also due to the fact that different chapters
 may require different environment set-up.
 
+![Book cover](./images/book_cover.jpg "Hands-on Machine Learning with Scikit-Learn, Keras & TernsorFlow")
+
 ## Runbook
 
 ### For Python modules
