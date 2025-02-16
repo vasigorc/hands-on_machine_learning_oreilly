@@ -104,3 +104,26 @@ docker logs --tail 15 handson-ml3
 [I 2024-08-20 22:22:30.762 ServerApp] Connecting to kernel b6936699-0de1-4051-a6a1-337ea2696f9c.
 [I 2024-08-20 22:22:30.776 ServerApp] Connecting to kernel b6936699-0de1-4051-a6a1-337ea2696f9c.
 ```
+
+### Adding dependencies
+
+Should a new dependency be required, you may search for it on [PyPi](https://pypi.org). Each page shows
+packages, their transsient dependencies and compatibility. Alternatively you may use
+`pip` (and just pick the latest version):
+
+```shell
+(shared_venv) vasilegorcinschi@bonobo15:~/repos/hands-on_machine_learning_oreilly$ pip index versions seaborn
+WARNING: pip index is currently an experimental command. It may be removed/changed in a future release without prior warning.
+seaborn (0.13.2)
+Available versions: 0.13.2, 0.13.1, 0.13.0, 0.12.2, 0.12.1, 0.12.0, 0.11.2, 0.11.1, 0.11.0, 0.10.1, 0.10.0, 0.9.1, 0.9.0, 0.8.1, 0.8, 0.7.1, 0.7.0, 0.6.0, 0.5.1, 0.5.0, 0.4.0, 0.3.1, 0.3, 0.2.1, 0.2.0, 0.1
+```
+
+Then you may add the required dependency to [`requirements.txt`](./requirements.txt) , e.g.: `seaborn~=0.13.0`
+
+#### For use within Jupyter Notebooks
+
+Jupyter notebook dependencies are actually read from [`environment.yml`](./environment.yml) file. To add the same dependency
+to that file, just make sure it is on [conda-forge](https://conda-forge.org/), for pip dependencies add them under `pip:`.
+
+For non-python dependencies, for example I once wanted to install Pandoc, you have to install it as a tool
+inside the Docker image and rebuild the latter.
