@@ -92,3 +92,7 @@ statsmodels~=0.14.0
 
 # Used in python modules outside of Jupyter
 pytest~=7.4.0
+
+# An OS independent library used for statistical data visualization
+# requires: numpy, pandas, matplotlib for basic functioning
+seaborn~=0.13.0
