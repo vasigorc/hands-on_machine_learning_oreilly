@@ -12,9 +12,6 @@ images_/
 # IDE settings
 .vscode
 
-# Jupyter Notebooks (filtering most of them out since they're basically drafts of the final code available in Python modules)
-*_.ipynb
-
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
