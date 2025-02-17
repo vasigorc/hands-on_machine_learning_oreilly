@@ -12,7 +12,7 @@ the goal is to train a classification model capable of predicting the cultivator
 chemical analysis. Since SVM classifiers are binary classifiers, you will need to use one-versus-all
 to classify all three classifiers. What accuracy can you reach?
 
-Please see Markdown copy(exercise_10_.md) of the Jupyter Notebook of this exercise for detailed steps, and analysis.
+Please see the Jupyter Notebook of this exercise for detailed steps, and analysis.
 """
 
 
