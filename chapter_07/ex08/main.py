@@ -9,80 +9,40 @@ on the validation set, using _soft_ or _hard_ voting. Once you have found one, t
 set. How much better does it perform compared to the individual classifiers?
 """
 
-import numpy as np
-from sklearn.datasets import fetch_openml
-from sklearn.model_selection import train_test_split
-from sklearn.utils import Bunch
 from sklearn.svm import SVC
 from sklearn.ensemble import (
     RandomForestClassifier,
     ExtraTreesClassifier,
     VotingClassifier,
 )
+from chapter_07.common.model_utils import evaluate_single_classifier, train_and_evaluate_classifiers
+from chapter_07.common.data_utils import load_mnist_dataset, split_mnist_dataset
 
 
-def evaluate_single_classifier(X_train, y_train, X_validation, y_validation, clf):
-    clf.fit(X_train, y_train)
-    accuracy = clf.score(X_validation, y_validation)
-    return clf, accuracy
-
-
-def main():
+    def main():
     # Step 1. Split the data
-    mnist: Bunch = fetch_openml("mnist_784", version=1, as_frame=False, parser="auto")
-    X: np.ndarray = mnist.data
-    y: np.ndarray = mnist.target
+    X, y = load_mnist_dataset()
 
-    # First split to get the test set
-    X_temp, X_test, y_temp, y_test = train_test_split(
-        X, y, test_size=10_000, random_state=42
+    X_train, X_validation, X_test, y_train, y_validation, y_test = split_mnist_dataset(
+        X, y
     )
-    # split the remaining data to get training and validation sets
-    X_train, X_validation, y_train, y_validation = train_test_split(
-        X_temp, y_temp, test_size=10_000, random_state=42
-    )
-    print(f"Training set size: {X_train.shape[0]}")
-    print(f"Validation set size: {X_validation.shape[0]}")
-    print(f"Test set size: {X_test.shape[0]}")
 
     # Step 2. Evaluate individual classifiers
-    rf_clf, rf_acc = evaluate_single_classifier(
-        X_train,
-        y_train,
-        X_validation,
-        y_validation,
-        RandomForestClassifier(random_state=42),
-    )
-    print(
-        f"RandomForestClassifier's accuracy on the validation set is {rf_acc * 100:.2f}%"
-    )
+    classifiers = [
+        ("random_forest", RandomForestClassifier(random_state=42)),
+        ("extra_trees", ExtraTreesClassifier(random_state=42)),
+        ("svc", SVC(probability=True, random_state=42))
+    ]
 
-    et_clf, et_acc = evaluate_single_classsifier(
-        X_train,
-        y_train,
-        X_validation,
-        y_validation,
-        ExtraTreesClassifier(random_state=42),
+    trained_models = train_and_evaluate_classifiers(
+        classifiers, X_train, y_train, X_validation, y_validation
     )
-    print(
-        f"ExtraTreesClassifier's accuracy on the validation set is {et_acc * 100:.2f}%"
-    )
-
-    svm_clf, svm_acc = evaluate_single_classsifier(
-        X_train,
-        y_train,
-        X_validation,
-        y_validation,
-        SVC(probability=True, random_state=42),
-    )
-    print(f"SVC's accuracy on the validation set is {svm_acc * 100:.2f}%")
 
     # Step 3. Combine individual classifiers into an Ensemble
     # VotingClassifier with hard voting
-    voting_clf_hard = VotingClassifier(
-        estimators=[("rf", rf_clf), ("et", et_clf), ("svc", svm_clf)], voting="hard"
-    )
-    vt_clf_hard, vt_hard_acc = evaluate_single_classsifier(
+    voting_clf_hard = VotingClassifier(estimators=trained_models, voting="hard")
+
+    vt_clf_hard, vt_hard_acc = evaluate_single_classifier(
         X_train, y_train, X_validation, y_validation, voting_clf_hard
     )
     print(
@@ -90,10 +50,8 @@ def main():
     )
 
     # VotingClassifier with soft voting
-    voting_clf_soft = VotingClassifier(
-        estimators=[("rf", rf_clf), ("et", et_clf), ("svc", svm_clf)], voting="soft"
-    )
-    vt_clf_soft, vt_soft_acc = evaluate_single_classsifier(
+    voting_clf_soft = VotingClassifier(estimators=trained_models, voting="soft")
+    vt_clf_soft, vt_soft_acc = evaluate_single_classifier(
         X_train, y_train, X_validation, y_validation, voting_clf_soft
     )
     print(
