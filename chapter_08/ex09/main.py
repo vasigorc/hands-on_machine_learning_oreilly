@@ -10,26 +10,13 @@ much faster? Next, evaluate the classifier on the test set. How does it compare 
 Try again with an `SGDClassifier`. How much does PCA help now?
 """
 
-import time
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
-from functools import wraps
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import SGDClassifier
 from sklearn.decomposition import PCA
 import numpy as np
-
-
-def timeit(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, *kwargs)
-        end_time = time.time()
-        execution_time = end_time - start_time
-        return result, execution_time
-
-    return wrapper
+from chapter_08.common.timeit import timeit
 
 
 @timeit
