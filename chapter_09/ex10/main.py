@@ -12,44 +12,26 @@ that you have a good number of clusters (using one of the techniques discussed i
 the clusters: do you see similar faces in each cluster?
 """
 
-from sklearn.datasets import fetch_olivetti_faces
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import silhouette_score
 from sklearn.cluster import KMeans
 import numpy as np
-from joblib import Parallel, delayed
 import matplotlib.pyplot as plt
+from chapter_09.common.data_utils import load_split_olivetti_dataset
+from chapter_09.common.kmeans_utils import find_optimal_clusters
 
 
 def main():
     # Step 1. Load and split the dataset
-    olivetti = fetch_olivetti_faces()
-    X_temp, X_test, y_temp, y_test = train_test_split(
-        olivetti.data,
-        olivetti.target,
-        stratify=olivetti.target,
-        test_size=0.2,
-        random_state=42,
-    )
-    X_train, X_validation, y_train, y_validation = train_test_split(
-        X_temp, y_temp, stratify=y_temp, test_size=0.2, random_state=42
+    X_train, X_validation, X_test, y_train, y_validation, y_test = (
+        load_split_olivetti_dataset()
     )
 
-    # Step 2. Find optimal number of clusters for the given dataset
-    k_values = np.arange(30, 60, 3)  # [30, 33,...,57]
-    k_scores = []
+    # Step 2: Find optimal clusters (simplified version)
+    (
+        k_candidates,
+        k_scores,
+    ) = find_optimal_clusters(np.arange(30, 60, 3), X_train)
 
-    def compute_silhouette(k, X):
-        labels = KMeans(n_clusters=k, n_init=10, random_state=42).fit_predict(X)
-        sil_score = silhouette_score(X, labels)
-        k_scores.append(sil_score)
-        return silhouette_score(X, labels)
-
-    k_scores = Parallel(n_jobs=-1)(
-        delayed(compute_silhouette)(k, X_train) for k in k_values
-    )
-
-    k = k_values[np.argmax(k_scores)]
+    k = k_candidates[np.argmax(k_scores)]
     print(f"Best k for max score is {k}")
 
     # Step 3. Cluster the images using the optimal number of clusters
