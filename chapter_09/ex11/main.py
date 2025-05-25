@@ -9,7 +9,6 @@ reduced set to the original features (again, searching for the best number of cl
 """
 
 import numpy as np
-from pandas.core.common import random_state
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.model_selection import RandomizedSearchCV
@@ -17,8 +16,11 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
-from chapter_09.common.kmeans_utils import find_optimal_clusters
+from chapter_09.common.clustering_utils import compute_silhouette, find_optimal_clusters
 from chapter_09.common.data_utils import load_split_olivetti_dataset
+from chapter_09.common.dimensionality_reduction_utils import (
+    determine_optimal_pca_components,
+)
 
 
 def main():
@@ -44,7 +46,7 @@ def main():
     (
         k_candidates,
         k_scores,
-    ) = find_optimal_clusters(np.arange(30, 60, 3), X_train)
+    ) = find_optimal_clusters(np.arange(30, 60, 3), X_train, compute_silhouette)
 
     k = k_candidates[np.argmax(k_scores)]
     print(f"Best k for max score is {k}")
@@ -109,17 +111,6 @@ def train_svc_with_pca(X_train, y_train, n_components):
     random_search.fit(X_train, y_train)
 
     return random_search
-
-
-def determine_optimal_pca_components(X_train):
-    """Calculate number of PCA components to retain 95% variance"""
-    pca = PCA().fit(X_train)
-    cumsum = np.cumsum(pca.explained_variance_ratio_)
-    d = np.argmax(cumsum >= 0.95) + 1
-    print(
-        f"optimal number of retained dimensions (pixels) for the Olivetti dataset (to keep variance at 95%) is {d}"
-    )
-    return d
 
 
 def evaluate_svc_model(model, model_name, X_validation, y_validation):
