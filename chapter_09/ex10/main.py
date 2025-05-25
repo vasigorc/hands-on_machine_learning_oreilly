@@ -16,7 +16,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
 from chapter_09.common.data_utils import load_split_olivetti_dataset
-from chapter_09.common.kmeans_utils import find_optimal_clusters
+from chapter_09.common.clustering_utils import compute_silhouette, find_optimal_clusters
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
     (
         k_candidates,
         k_scores,
-    ) = find_optimal_clusters(np.arange(30, 60, 3), X_train)
+    ) = find_optimal_clusters(np.arange(30, 60, 3), X_train, compute_silhouette)
 
     k = k_candidates[np.argmax(k_scores)]
     print(f"Best k for max score is {k}")
