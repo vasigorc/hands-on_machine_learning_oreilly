@@ -22,12 +22,13 @@ from chapter_09.common.plot_utils import plot_faces
 from chapter_09.common.dimensionality_reduction_utils import (
     determine_optimal_pca_components,
 )
+from chapter_09.common.data_utils import get_modified_faces
 
 
 def main():
     # Step 1. Split the dataset into training and test sets
     olivetti = fetch_olivetti_faces()
-    X_train, X_test, y_train, y_test = train_test_split(
+    X_train, _, y_train, _ = train_test_split(
         olivetti.data,
         olivetti.target,
         stratify=olivetti.target,
@@ -68,25 +69,7 @@ def main():
     # Step 6. Modify some other images and see if the model can detect anomalies
     # For this task we want to use unseen data: pristine normal data, but not the
     # data that the model was trained on.
-
-    # Re-using author's solution for this part (from: https://colab.research.google.com/github/ageron/handson-ml3/blob/main/09_unsupervised_learning.ipynb)
-    n_rotated = 4
-    rotated = np.transpose(X_train[:n_rotated].reshape(-1, 64, 64), axes=[0, 2, 1])
-    rotated = rotated.reshape(-1, 64 * 64)
-    y_rotated = y_train[:n_rotated]
-
-    n_flipped = 3
-    flipped = X_train[:n_flipped].reshape(-1, 64, 64)[:, ::-1]
-    flipped = flipped.reshape(-1, 64 * 64)
-    y_flipped = y_train[:n_flipped]
-
-    n_darkened = 3
-    darkened = X_train[:n_darkened].copy()
-    darkened[:, 1:-1] *= 0.3
-    y_darkened = y_train[:n_darkened]
-
-    X_bad_faces = np.r_[rotated, flipped, darkened]
-    y_bad = np.concatenate([y_rotated, y_flipped, y_darkened])
+    X_bad_faces, y_bad = get_modified_faces(X_train, y_train)
 
     plot_faces(
         X_bad_faces,
